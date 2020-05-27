@@ -243,7 +243,7 @@ class App:
 
         self.photo = PhotoImage(file = "resources/github-100.png")
         self.photoimage = self.photo.subsample(3, 3)
-        self.githubButton = Button(about, text = 'Open sourced on GitHub', image=self.photoimage, compound=LEFT, width=220, height=40, bg='black', fg='white', command=lambda : webbrowser.open('https://github.com/chauhannaman98/Hospital-Management-System'))
+        self.githubButton = Button(about, text = 'Open sourced on GitHub', image=self.photoimage, compound=LEFT, width=220, height=40, bg='black', fg='white', command=lambda : webbrowser.open('https://github.com/akshit6/hospital-management-system-using-tkinter'))
         self.githubButton.place(x=110, y=250)
 
 # def deleteProfilePic(filepath):
