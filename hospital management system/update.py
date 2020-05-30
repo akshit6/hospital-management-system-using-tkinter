@@ -5,7 +5,7 @@ import tkinter as tk
 import sqlite3
 import tkinter.messagebox
 
-conn = sqlite3.connect('database.db')
+conn = sqlite3.connect('datab.db')
 c = conn.cursor()
 
 class App:
@@ -100,16 +100,33 @@ class App:
     def update_db(self):
         # declaring the variables to update
         self.var1 = self.ent1.get() #updated name
-        self.var2 = self.ent2.get() #updated age
+
+        try:
+            self.var2 = int(self.ent2.get())
+        except ValueError:
+            tkinter.messagebox.showwarning("Warning","Please fill up age correctly")
         self.var3 = self.ent3.get() #updated gender
         self.var4 = self.ent4.get() #updated location
         self.var5 = self.ent5.get() #updated phone
         self.var6 = self.ent6.get() #updated time
+        if self.var1 == '' or self.var2 == '' or self.var3 == '' or self.var4 == '' or self.var5 == '' or self.var6 == '':
+            tkinter.messagebox.showwarning("Warning","Please fill up all the boxes")
 
-        query = "UPDATE appointments SET name=?, age=?, gender=?, location=?, phone=?, scheduled_time=? WHERE name LIKE ?"
-        c.execute(query, (self.var1, self.var2, self.var3, self.var4, self.var6, self.var5, self.namenet.get(),))
-        conn.commit()
-        tkinter.messagebox.showinfo("Updated", "Successfully Updated.")
+        elif (self.var3!="male"  and self.var3 !="female"):     #condition for gender
+            tkinter.messagebox.showwarning("Warning","Please fill up a valid gender")
+
+        elif (self.var2>105 or self.var2<0):                    #condition for age
+            tkinter.messagebox.showwarning("Warning","Please fill up a valid age")
+
+        elif (not(self.var6).isdecimal() or len(self.var6)!=10):      #condition for mobile number
+            tkinter.messagebox.showwarning("Warning","Please fill up a valid mobile number")
+
+        else:
+
+            query = "UPDATE appointments SET name=?, age=?, gender=?, location=?, phone=?, scheduled_time=? WHERE name LIKE ?"
+            c.execute(query, (self.var1, self.var2, self.var3, self.var4, self.var6, self.var5, self.namenet.get(),))
+            conn.commit()
+            tkinter.messagebox.showinfo("Updated", "Successfully Updated.")
     
     
     def delete_db(self):
