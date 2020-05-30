@@ -87,8 +87,8 @@ class App:
         if self.id=="" or self.password=="":
             tk.messagebox.showwarning("All credentials required","Please enter all fields. Fields marked (*) are required.")
         else:
-            self.login_id_ent.delete(0, END)
-            self.password_ent.delete(0, END)
+            self.login_id_ent.delete(0, tk.END)
+            self.password_ent.delete(0, tk.END)
             sql = "SELECT * FROM credentials WHERE name =? and pass =?"
             # self.input = self.id
             self.res = c.execute(sql, (self.id,self.password))
@@ -130,6 +130,10 @@ class App:
         
         itemone.add_command(label='View Appointment', command=self.display)
         itemone.add_separator()
+
+        if self.db_designation == 'System Administrator':
+            itemone.add_command(label='Add user', command=self.user)
+
         itemone.add_command(label='Logout', command=lambda: self.logout(top))
 
         Chooser.add_cascade(label='File', menu=itemone)       #because it has inside cascaded manu
@@ -187,6 +191,14 @@ class App:
         elif sys.platform.startswith('win32'):
             print("OS = win32")
             os.system("python update.py")
+
+    def user(self):
+        if sys.platform.startswith('linux'):
+            print("OS = linux")
+            os.system("python3 user.py")
+        elif sys.platform.startswith('win32'):
+            print("OS = win32")
+            os.system("python user.py")
 
     # function to open the display window  
     def display(self):
