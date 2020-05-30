@@ -77,19 +77,26 @@ class App:
         self.submit.place(x=400, y=340)
 
         # getting the number of appointments fixed to view in the log
-        sql2 = "SELECT ID FROM appointments "
+        # sql2 = "SELECT ID FROM appointments "
+        sql2 = "SELECT COUNT(*) FROM appointments"
         self.result = c.execute(sql2)
+        # print("total: " , self.result)
         for self.row in self.result:
+            self.count = self.row[0]
+        # print(self.count)
+        # print(type(self.count))
             
-            self.id = self.row[0]
-            ids.append(self.id)
+        #     self.id = self.row[0]
+        #     ids.append(self.id)
 
 
 
-
-        # ordering the ids
-        self.new = sorted(ids)
-        self.final_id = self.new[len(ids)-1]
+        # print(ids)
+        # # ordering the ids
+        # self.new = sorted(ids)                
+        # print(self.new)
+        # self.final_id = self.new[len(ids)-1]  #total number of appointments
+        # print(self.final_id)
 
         # displaying the logs in right frame
         self.logs = Label(self.right, text="Appointment Log", font=('arial 28 bold'), fg='white', bg='steelblue')
@@ -97,30 +104,45 @@ class App:
 
         self.box = Text(self.right, width=40, height=30)
         self.box.place(x=20, y=60)
-        self.box.insert(END, "Total Appointments till now :  " + str(self.final_id))
+        self.box.insert(END, "Total Appointments till now :  " + str(self.count))
 
     # function to call when the submit button is clicked
     def add_appointment(self):
         # getting the user inputs
         self.val1 = self.name_ent.get()
-        self.val2 = self.age_ent.get()
+        try:
+            self.val2 = int(self.age_ent.get())
+        except ValueError:
+            tkinter.messagebox.showwarning("Warning","Please fill up age correctly")
         self.val3 = self.gender_ent.get()
         self.val4 = self.location_ent.get()
         self.val5 = self.time_ent.get()
         self.val6 = self.phone_ent.get()
 
+        # print((self.val6).isdecimal())
+
         # checking if the user input is empty
         if self.val1 == '' or self.val2 == '' or self.val3 == '' or self.val4 == '' or self.val5 == '' or self.val6 == '':
             tkinter.messagebox.showwarning("Warning","Please fill up all the boxes")
+
+        elif (self.val3!="male"  and self.val3 !="female"):     #condition for gender
+            tkinter.messagebox.showwarning("Warning","Please fill up a valid gender")
+
+        elif (self.val2>105 or self.val2<0):                    #condition for age
+            tkinter.messagebox.showwarning("Warning","Please fill up a valid age")
+
+        elif (not(self.val6).isdecimal() or len(self.val6)!=10):      #condition for mobile number
+            tkinter.messagebox.showwarning("Warning","Please fill up a valid mobile number")
+
         else:
+            # pass
             # now we add to the database
             sql = "INSERT INTO 'appointments' (name, age, gender, location, scheduled_time, phone) VALUES(?, ?, ?, ?, ?, ?)"
             c.execute(sql, (self.val1, self.val2, self.val3, self.val4, self.val5, self.val6))
             conn.commit()
+            self.box.insert(END, "Total Appointments till now :  " + str(self.count))  #update the count
             tkinter.messagebox.showinfo("Success","Appointment for "+str(self.val1)+" has been created")
-            
-
-            self.box.insert(END, '\nAppointment fixed for ' + str(self.val1) + ' at ' + str(self.val5))
+            self.box.insert(END, '\nAppointment fixed for ' + str(self.val1) + ' at ' + str(self.val5))  #update the log
 
 
 #creating the object
