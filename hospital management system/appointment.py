@@ -140,7 +140,7 @@ class App:
             sql = "INSERT INTO 'appointments' (name, age, gender, location, scheduled_time, phone) VALUES(?, ?, ?, ?, ?, ?)"
             c.execute(sql, (self.val1, self.val2, self.val3, self.val4, self.val5, self.val6))
             conn.commit()
-            self.box.insert(END, "Total Appointments till now :  " + str(self.count))  #update the count
+            # self.box.insert(END, "Total Appointments till now :  " + str(self.count))  #update the count
             tkinter.messagebox.showinfo("Success","Appointment for "+str(self.val1)+" has been created")
             self.box.insert(END, '\nAppointment fixed for ' + str(self.val1) + ' at ' + str(self.val5))  #update the log
 

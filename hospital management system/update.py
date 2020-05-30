@@ -33,8 +33,14 @@ class App:
         self.input = self.namenet.get()
 
         # execute sql 
-        sql = "SELECT * FROM appointments WHERE name LIKE ?"
+        sql = "SELECT * FROM appointments WHERE name=?"
         self.res = c.execute(sql, (self.input,))
+        # print(type(self.res))
+        # print("hii " , self.res)
+        if (self.res.fetchone() == None):
+            tkinter.messagebox.showwarning("Warning","No such record in database ")
+            return
+
         for self.row in self.res:
             self.name1 = self.row[1]
             self.age = self.row[2]

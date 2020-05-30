@@ -14,7 +14,7 @@ c = conn.cursor()
 number = []
 patients = []
 
-sql = "SELECT * FROM appointments"
+sql = "SELECT * FROM appointments ORDER BY scheduled_time ASC"
 res = c.execute(sql)
 for r in res:
     ids = r[0]
@@ -53,12 +53,13 @@ class Application:
             print("The appointment list is completed :")
             tkinter.messagebox.showinfo("completed :","The appointment list is  completed")
         try:
-            engine = pyttsx3.init('sapi5')
-            voices = engine.getProperty('voices')
-            rate = engine.getProperty('rate')
-            engine.setProperty('rate', rate-50)
-            engine.say('Patient number ' + str(number[self.x]) + str(patients[self.x]))
-            engine.runAndWait()
+            pass
+            # engine = pyttsx3.init('sapi5')
+            # voices = engine.getProperty('voices')
+            # rate = engine.getProperty('rate')
+            # engine.setProperty('rate', rate-50)
+            # engine.say('Patient number ' + str(number[self.x]) + str(patients[self.x]))
+            # engine.runAndWait()
         except:
             print("An Error occured in text to speech :")
         self.x += 1
