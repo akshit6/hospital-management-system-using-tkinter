@@ -5,7 +5,7 @@ import tkinter as tk
 import sqlite3
 import tkinter.messagebox
 
-conn = sqlite3.connect('datab.db')
+conn = sqlite3.connect('database.db')
 c = conn.cursor()
 
 class App:
